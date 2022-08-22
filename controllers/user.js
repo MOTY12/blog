@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const jwt = require("jsonwebtoken");
 const { userModel } = require("../models/index");
 
 const register = async (req, res) => {
@@ -19,14 +20,12 @@ const register = async (req, res) => {
       }
     
       let user = new userModel({
-        profile: {
           firstName: req.body.firstName,
           lastName: req.body.lastName,
           email: req.body.email,
           username: req.body.username,
           phoneNumber: req.body.phoneNumber,
-        },
-        password: req.body.password,
+          password: req.body.password,
       });
     
       const result = await user.save()
@@ -38,7 +37,7 @@ const login = (req, res) => {
     let email = req.body.email;
     let password = req.body.password;
   
-    userModel.findOne({ "profile.email": email }).then((user) => {
+    userModel.findOne({ "email": email }).then((user) => {
       if (user) {
         user.comparePassword(password, async function (err, result) {
           if (err) {
@@ -50,11 +49,10 @@ const login = (req, res) => {
           if (result) {
               let token = jwt.sign(
                 { id: user._id, type: "hunter" },
-                process.env.HUNTER_TOKEN_SECRET,
+                process.env.USER_TOKEN_SECRET,
                 {
                   expiresIn: process.env.TOKEN_LIFE,
-                }
-              );
+                });
               res.json({
                 id: user._id,
                 user,

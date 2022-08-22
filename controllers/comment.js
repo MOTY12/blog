@@ -2,7 +2,8 @@ const {commentModel, blogModel} = require("../models/index");
 
 //create a new comment
 const createComment = async (req, res) => {
-    const {comment,userId} = req.body;
+
+    const {comment} = req.body;
     const { blogId} = req.params;
     //check if blog post exists
     const blog = await blogModel.find({_id: blogId});
@@ -13,7 +14,7 @@ const createComment = async (req, res) => {
 
     const newComment = new commentModel({
         comment,
-        userId,
+        userId: req.user.id,
         blogId
     });
     try {

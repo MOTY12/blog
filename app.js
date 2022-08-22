@@ -1,6 +1,7 @@
 const express = require('express');
 const commentRouter = require("./router/comment");
 const blogRouter = require("./router/blog");
+const userRouter = require("./router/user")
 const dotenv = require('dotenv');
 const loaddb = require("./utils/db");
 const app = express();
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/comment', commentRouter);
 app.use('/blog', blogRouter);
+app.use('/user', userRouter)
 
 
 app.get('/', (req, res) => {
