@@ -14,7 +14,11 @@ const commentSchema = mongoose.Schema(
     userId: {
         type: String,
         required: true
+    },
+    upvotes:{
+      type: String,
     }
+
   },
     { timestamps: true }
   );

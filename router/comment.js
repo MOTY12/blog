@@ -11,4 +11,5 @@ router.post('comment/:commentId', userauth,commentController.replyComment);
 router.post('/:blogId', userauth,commentController.createComment);
 router.post('upvote/:commentId', commentController.upvoteComment)
 
+
 module.exports = router;
